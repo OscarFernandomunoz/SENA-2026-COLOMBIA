@@ -360,9 +360,13 @@ class AppUI {
           endDate: this.inputEndDate.value,
         });
         this.statusMessage.textContent = 'Sesión iniciada en SofiaPlus.';
-      } catch {
-        this.statusMessage.textContent = 'No se pudo abrir SofiaPlus.';
-        alert('No se pudo abrir SofiaPlus. Revisa tu conexión e inténtalo nuevamente.');
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        const userMessage = errorMessage.includes('rol necesario')
+          ? errorMessage
+          : 'No se pudo abrir SofiaPlus. Revisa tu conexión e inténtalo nuevamente.';
+        this.statusMessage.textContent = userMessage;
+        alert(userMessage);
       } finally {
         this.state.isUploading = false;
         this.btnUpload.disabled = false;

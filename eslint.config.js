@@ -1,22 +1,13 @@
-import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
+
+import { nodeEnvironment } from './eslint/environments.js';
+import ignores from './eslint/ignores.js';
+import presets from './eslint/presets.js';
+import { typescriptRules } from './eslint/rules.js';
+
 export default tseslint.config(
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    files: ['scripts/**/*.mjs', 'eslint.config.js'],
-    languageOptions: {
-      globals: {
-        process: 'readonly',
-        console: 'readonly'
-      }
-    }
-  },
-  {
-    files: ['src/**/*.ts'],
-    rules: {
-      '@typescript-eslint/explicit-function-return-type': 'warn',
-      '@typescript-eslint/no-explicit-any': 'error'
-    }
-  }
+  ignores,
+  ...presets,
+  nodeEnvironment,
+  typescriptRules
 );

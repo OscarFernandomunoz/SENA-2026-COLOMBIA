@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "tims",
   "version": "0.1.0",
   "description": "Time Instructor Management System",

@@ -9,7 +9,8 @@
     "build": "node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
     "lint": "eslint .",
-    "start": "npm run build && electron ."
+    "dev": "node scripts/dev.mjs",
+    "start": "npm run lint && npm run build && electron ."
   },
   "author": {
     "name": "Oscar Fernando"

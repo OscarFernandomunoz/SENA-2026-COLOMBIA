@@ -2,6 +2,14 @@ import type { ClickPoint } from './types.js';
 
 // Este módulo localiza los menús y selecciones de SofiaPlus para avanzar por el flujo de navegación guiado.
 
+function findVisibleText(selector: string, text: string): HTMLElement | null {
+  const target = text.trim().toLocaleLowerCase();
+  return Array.from(document.querySelectorAll<HTMLElement>(selector)).find((element) => {
+    const value = element.textContent?.trim().toLocaleLowerCase();
+    return value === target && element.getClientRects().length > 0;
+  }) ?? null;
+}
+
 // Busca la opción de Aspirante dentro de los selectores o controles visibles del portal.
 export async function openAspiranteOptions(): Promise<ClickPoint | null> {
   const pointFor = (element: HTMLElement): ClickPoint => {
@@ -24,7 +32,7 @@ export async function openAspiranteOptions(): Promise<ClickPoint | null> {
   )));
   if (aspiranteSelect) return pointFor(aspiranteSelect);
 
-  const control = findVisibleText('aspirante', 'button, [role="button"], [role="combobox"]');
+  const control = findVisibleText('button, [role="button"], [role="combobox"]', 'aspirante');
   return control ? pointFor(control) : null;
 }
 

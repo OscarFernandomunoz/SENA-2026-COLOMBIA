@@ -1,6 +1,7 @@
 import * as XLSX from 'xlsx';
 
-// Interfaces
+// Este archivo controla la interfaz del renderer: clima, tema, carga de Excel y envío del flujo a SofiaPlus.
+
 interface FileUploadState {
   file: File | null;
   isUploading: boolean;
@@ -12,6 +13,7 @@ interface LocationData {
   city: string;
 }
 
+// Gestiona los elementos visibles de la interfaz y conecta la UI con las funciones del proceso principal.
 class AppUI {
   private state: FileUploadState = {
     file: null,
@@ -42,6 +44,7 @@ class AppUI {
     this.initSubmit();
   }
 
+  // Carga el tema guardado o usa la preferencia del sistema y aplica el estilo de la UI.
   private initTheme(): void {
     const savedTheme = localStorage.getItem('aia-theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -63,6 +66,7 @@ class AppUI {
     this.themeToggle.innerHTML = `<i class="fa-solid fa-${isDark ? 'sun' : 'moon'}" aria-hidden="true"></i><span>Tema ${isDark ? 'claro' : 'oscuro'}</span>`;
   }
 
+  // Actualiza el reloj y la fecha en tiempo real para mostrar el contexto del usuario.
   private initClock(): void {
     const updateTime = (): void => {
       const now = new Date();
@@ -82,6 +86,7 @@ class AppUI {
     updateTime();
   }
 
+  // Obtiene la ubicación del usuario para mostrar la ciudad y el clima actual.
   private async initLiveContext(): Promise<void> {
     const location = await this.getLocation();
     this.cityElem.textContent = location.city;
@@ -150,7 +155,7 @@ class AppUI {
     return 'fa-cloud-bolt';
   }
 
-  // Arrastrar y Soltar (Drag & Drop)
+  // Maneja la carga de archivos Excel por clic o arrastrar y soltar.
   private initFileHandling(): void {
     this.dropzone.addEventListener('click', () => this.fileInput.click());
 
@@ -179,6 +184,7 @@ class AppUI {
     });
   }
 
+  // Valida que el archivo sea Excel y lo prepara para mostrar una vista previa.
   private validateAndSetFile(file: File): void {
     const ext = file.name.split('.').pop()?.toLowerCase();
     if (ext === 'xls' || ext === 'xlsx') {
@@ -191,6 +197,7 @@ class AppUI {
     }
   }
 
+  // Lee el libro Excel y genera una vista previa con filtros por columna para revisar los datos.
   private async previewExcel(file: File): Promise<void> {
     this.excelPreview.replaceChildren();
     this.excelPreview.textContent = 'Leyendo información del Excel...';
@@ -340,6 +347,7 @@ class AppUI {
     }
   }
 
+  // Envía la información del formulario hacia el proceso principal para abrir SofiaPlus y completar la operación.
   private initSubmit(): void {
     this.btnUpload.addEventListener('click', async () => {
       if (!this.inputUser.value || !this.inputPass.value) {
@@ -376,7 +384,7 @@ class AppUI {
   }
 }
 
-// Inicializar Aplicación
+// Inicializa la aplicación cuando el DOM ya está listo para manejar eventos y renderizar la UI.
 document.addEventListener('DOMContentLoaded', () => {
   new AppUI();
 });

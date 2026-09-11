@@ -1,5 +1,8 @@
 import type { ClickPoint } from './types.js';
 
+// Este módulo rellena los filtros del reporte y selecciona la identificación requerida para consultar tiempos.
+
+// Busca los campos de fecha del formulario y les asigna el rango solicitado por el usuario.
 export async function fillReportDates(dates: { startDate: string; endDate: string }): Promise<boolean> {
   const fields = Array.from(document.querySelectorAll<HTMLInputElement>('input'))
     .filter((field) => field.type !== 'hidden' && field.getClientRects().length > 0);
@@ -29,6 +32,7 @@ export async function fillReportDates(dates: { startDate: string; endDate: strin
   return true;
 }
 
+// Localiza el selector del instructor para abrir el diálogo de selección de personal.
 export async function findInstructorPicker(): Promise<ClickPoint | null> {
   const pointFor = (element: HTMLElement): ClickPoint => {
     const rect = element.getBoundingClientRect();
@@ -53,6 +57,7 @@ export async function findInstructorPicker(): Promise<ClickPoint | null> {
   return pointFor(picker);
 }
 
+// Elige la opción de cédula de ciudadanía en el selector del formulario de reporte.
 export async function selectCitizenshipId(): Promise<boolean> {
   const normalize = (text: string): string => text.trim().toLocaleLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '');

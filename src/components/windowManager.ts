@@ -1,6 +1,7 @@
 import { BrowserWindow } from 'electron';
 import { join } from 'node:path';
 
+// Crea la ventana principal de la aplicación con el renderer HTML y el preload seguro.
 export function createMainWindow(): BrowserWindow {
   const mainWindow = new BrowserWindow({
     width: 1000,
@@ -14,6 +15,7 @@ export function createMainWindow(): BrowserWindow {
       height: 32,
     },
     webPreferences: {
+      // El preload se usa para exponer una API segura al renderer.
       preload: join(process.cwd(), 'dist/preload/index.js'),
       contextIsolation: true,
       nodeIntegration: false,
@@ -21,6 +23,7 @@ export function createMainWindow(): BrowserWindow {
     },
   });
 
+  // Carga la interfaz de usuario compilada en la carpeta dist.
   mainWindow.loadFile(join(process.cwd(), 'dist/renderer/index.html'));
   return mainWindow;
 }

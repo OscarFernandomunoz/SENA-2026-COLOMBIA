@@ -11,11 +11,13 @@ import {
 import { fillReportDates, findInstructorPicker, selectCitizenshipId } from './report.js';
 import type { SofiaCredentials } from './types.js';
 
+// Este archivo orquesta el flujo principal de automatización de SofiaPlus.
 const SOFIA_URL = 'http://senasofiaplus.edu.co/sofia-public/';
 let sofiaWindow: BrowserWindow | null = null;
 
 export type { SofiaCredentials } from './types.js';
 
+// Crea o reutiliza la ventana de navegador de SofiaPlus y carga la URL base con reintentos.
 async function loadWindow(): Promise<BrowserWindow> {
   if (sofiaWindow && !sofiaWindow.isDestroyed()) {
     sofiaWindow.focus();
@@ -43,6 +45,7 @@ async function loadWindow(): Promise<BrowserWindow> {
   throw new Error(`No se pudo cargar SofiaPlus: ${lastLoadError?.message ?? 'error desconocido'}`);
 }
 
+// Ejecuta el flujo completo: login, navegación, selección de fechas y preparación del reporte.
 export async function openSofiaPlus(credentials: SofiaCredentials): Promise<void> {
   const window = await loadWindow();
   await booleanScript(window, `(${fillSofiaInputs.toString()})(${JSON.stringify(credentials)})`, 'No se encontraron los campos de acceso de SofiaPlus.');

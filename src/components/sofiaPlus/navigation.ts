@@ -1,5 +1,8 @@
 import type { ClickPoint } from './types.js';
 
+// Este módulo localiza los menús y selecciones de SofiaPlus para avanzar por el flujo de navegación guiado.
+
+// Busca la opción de Aspirante dentro de los selectores o controles visibles del portal.
 export async function openAspiranteOptions(): Promise<ClickPoint | null> {
   const pointFor = (element: HTMLElement): ClickPoint => {
     const rect = element.getBoundingClientRect();
@@ -25,6 +28,7 @@ export async function openAspiranteOptions(): Promise<ClickPoint | null> {
   return control ? pointFor(control) : null;
 }
 
+// Selecciona la opción de Gestión Desarrollo Curricular dentro del menú desplegable o en controles visibles.
 export async function selectCurriculumOption(): Promise<boolean> {
   const target = 'gestión desarrollo curricular';
   const normalize = (text: string): string => text.trim().toLocaleLowerCase();
@@ -44,6 +48,7 @@ export async function selectCurriculumOption(): Promise<boolean> {
   return Boolean(control);
 }
 
+// Encuentra la opción de Gestión de Tiempos y la activa para continuar con el módulo consultado.
 export async function findTimeManagementOption(): Promise<ClickPoint | null> {
   const pointFor = (element: HTMLElement): ClickPoint => {
     const rect = element.getBoundingClientRect();
@@ -71,6 +76,7 @@ export async function findTimeManagementOption(): Promise<ClickPoint | null> {
   return pointFor(control.matches('a, button') ? control : control.querySelector<HTMLElement>('a[href], a[onclick], button') ?? control);
 }
 
+// Abre la opción de Consultar Consolidado de Tiempos dentro del menú de gestión.
 export async function findConsolidatedTimeOption(): Promise<ClickPoint | null> {
   const pointFor = (element: HTMLElement): ClickPoint => {
     const rect = element.getBoundingClientRect();
@@ -88,6 +94,7 @@ export async function findConsolidatedTimeOption(): Promise<ClickPoint | null> {
   return pointFor(clickable);
 }
 
+// Abre la opción de Consultar Registro de Tiempo de Instructores para entrar al formulario final.
 export async function findInstructorTimeOption(): Promise<ClickPoint | null> {
   const pointFor = (element: HTMLElement): ClickPoint => {
     const rect = element.getBoundingClientRect();
